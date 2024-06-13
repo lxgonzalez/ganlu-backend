@@ -1,22 +1,23 @@
 package com.lgonzalez.service.impl;
 
-import com.lgonzalez.model.Category;
-import com.lgonzalez.repo.ICategoryRepo;
+import com.lgonzalez.model.Member;
+import com.lgonzalez.repo.IMemberRepo;
 import com.lgonzalez.repo.IGenericRepo;
+import com.lgonzalez.service.IMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
-public class CategoryImpl extends CRUDImpl<Category,Long> {
+public class MemberImpl extends CRUDImpl<Member,UUID> implements IMemberService {
 
     @Autowired
-    private ICategoryRepo repo;
+    private IMemberRepo repo;
 
     @Override
-    protected IGenericRepo<Category, Long> getRepo() {
+    protected IGenericRepo<Member, UUID> getRepo() {
         return repo;
     }
-
-
 
 }

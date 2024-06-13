@@ -29,9 +29,9 @@ public class DistributionImpl extends CRUDImpl<Distribution,Long> implements IDi
         List<Distribution> distributionList = new ArrayList<>();
         Double total = monthlyFinance.getSalary();
 
-        distributionList.add(new Distribution("Gastos Basicos","Gastos Basicos",50,total*((double) 50/100),monthlyFinance));
-        distributionList.add(new Distribution("Gastos Personales","Gastos Personales",30,total*((double) 30/100),monthlyFinance));
-        distributionList.add(new Distribution("Ahorros","Ahorro a largo plazo",20,total*((double) 20/100),monthlyFinance));
+        distributionList.add(new Distribution("Gastos Basicos","Gastos Basicos",50,total*((double) 50/100),total*((double) 50/100),monthlyFinance));
+        distributionList.add(new Distribution("Gastos Personales","Gastos Personales",30,total*((double) 30/100),total*((double) 30/100),monthlyFinance));
+        distributionList.add(new Distribution("Ahorros","Ahorro a largo plazo",20,total*((double) 20/100),total*((double) 20/100),monthlyFinance));
 
         return repo.saveAll(distributionList);
     }

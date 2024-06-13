@@ -1,5 +1,4 @@
 package com.lgonzalez.dto;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class CategoryDTO {
     private long idCategory;
     private String categoryName;
 }

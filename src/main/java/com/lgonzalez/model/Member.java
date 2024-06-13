@@ -5,14 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Member {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idUser;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID idMember;
     @Column(nullable = false, length = 50)
     private String firstName;
     @Column(nullable = false, length = 50)

@@ -1,19 +1,20 @@
 package com.lgonzalez.dto;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonthlyFinanceDTO {
-    private String month;
-    private String year;
+public class MonthlyDTO {
+    private Integer monthFinance;
+    private Integer yearFinance;
     private Double salary;
-    private MemberDTO member;
+    private Double total;
+    private UUID idMember;
+    private List<DistributionDTO> distributions;
 }

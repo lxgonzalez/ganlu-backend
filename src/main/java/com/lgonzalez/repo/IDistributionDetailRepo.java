@@ -1,9 +1,9 @@
 package com.lgonzalez.repo;
 
-import com.lgonzalez.model.Category;
+import com.lgonzalez.model.DistributionDetail;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ICatergoryRepo extends IGenericRepo<Category,Long>{
+public interface IDistributionDetailRepo extends IGenericRepo<DistributionDetail,Long>{
 
 }

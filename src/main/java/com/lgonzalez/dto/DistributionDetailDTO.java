@@ -1,4 +1,5 @@
 package com.lgonzalez.dto;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DistributionDTO {
-    private String name;
+public class DistributionDetailDTO {
+    private long idDistributionDetail;
     private String description;
-    private Integer percentage;
-    private Double total;
-    private MonthlyDTO monthlyDTO;
+    private Double subtotal;
+    private CategoryDTO category;
+
 }

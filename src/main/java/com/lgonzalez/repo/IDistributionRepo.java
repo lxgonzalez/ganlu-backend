@@ -1,9 +1,9 @@
 package com.lgonzalez.repo;
 
-import com.lgonzalez.model.Member;
+import com.lgonzalez.model.Distribution;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IMemberRepo extends IGenericRepo<Member,Long>{
+public interface IDistributionRepo extends IGenericRepo<Distribution,Long>{
 
 }

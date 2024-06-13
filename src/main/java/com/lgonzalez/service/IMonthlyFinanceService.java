@@ -1,7 +1,11 @@
 package com.lgonzalez.service;
 
-import com.lgonzalez.model.Distribution;
+import com.lgonzalez.model.Member;
+import com.lgonzalez.model.MonthlyFinance;
 
-public interface IDistributionService extends ICRUDService<Distribution,Long> {
-    
+import java.util.List;
+
+public interface IMonthlyFinanceService extends ICRUDService<MonthlyFinance,Long> {
+
+    List<MonthlyFinance> getMonthlyFinance(Member member, Integer month, Integer year);
 }
