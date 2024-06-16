@@ -19,4 +19,8 @@ public class DistributionDetail {
     @ManyToOne
     @JoinColumn(name = "id_category", nullable = false, foreignKey = @ForeignKey(name = "FK_DETAIL_CATEGORY"))
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "id_distribution", nullable = false, foreignKey = @ForeignKey(name = "FK_DETAIL_DISTRIBUTION"))
+    private Distribution distribution;
 }

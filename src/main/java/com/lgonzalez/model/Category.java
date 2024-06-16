@@ -14,4 +14,6 @@ public class Category {
     private long idCategory;
     @Column(nullable = false, length = 50)
     private String categoryName;
+    @Column(nullable = true, length = 250)
+    private String logo;
 }
