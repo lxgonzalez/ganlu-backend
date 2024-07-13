@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/monthly")
@@ -31,15 +28,15 @@ public class MonthlyFinanceController {
     private ModelMapper modelMapper;
 
     @GetMapping("/{memberId}/{month}/{year}")
-    public ResponseEntity<List<MonthlyDTO>> getMonthlyFinance(@PathVariable UUID memberId, @PathVariable Integer month, @PathVariable Integer year) {
+    public ResponseEntity<MonthlyDTO> getMonthlyFinance(@PathVariable Long memberId, @PathVariable Integer month, @PathVariable Integer year) {
         Member member = memberService.findById(memberId);
-        List<MonthlyDTO> list = service.getMonthlyFinance(member, month, year).stream().map(m -> modelMapper.map(m, MonthlyDTO.class)).collect(Collectors.toList());
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        MonthlyDTO monthlyDTO =modelMapper.map(service.getMonthlyFinance(member, month, year), MonthlyDTO.class); ;
+        return new ResponseEntity<>(monthlyDTO, HttpStatus.OK);
     }
 
     @PostMapping
     private ResponseEntity<Void> save(@Valid @RequestBody MonthlyDTO m) {
-
+        memberService.findById(m.getIdMember());
         MonthlyFinance monthlyFinance = service.save(modelMapper.map(m, MonthlyFinance.class));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(monthlyFinance.getIdMonthlyFinance()).toUri();
         return ResponseEntity.created(location).build();

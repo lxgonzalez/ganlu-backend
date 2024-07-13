@@ -14,8 +14,8 @@ import java.util.UUID;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID idMember;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idMember;
     @Column(nullable = false, length = 50)
     private String firstName;
     @Column(nullable = false, length = 50)

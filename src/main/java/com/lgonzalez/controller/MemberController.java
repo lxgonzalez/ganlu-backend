@@ -13,7 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,7 +42,7 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MemberDTO> findById(@PathVariable UUID id){
+    public ResponseEntity<MemberDTO> findById(@PathVariable Long id){
         Member p = service.findById(id);
         return ResponseEntity.ok(modelMapper.map(p, MemberDTO.class));
     }
@@ -55,7 +54,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteById(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

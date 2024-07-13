@@ -10,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDTO {
-    private UUID idMember;
+    private Long idMember;
     private String firstName;
     private String lastName;
     private String email;

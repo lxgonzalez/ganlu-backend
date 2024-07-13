@@ -12,7 +12,6 @@ public abstract class CRUDImpl<T,ID> implements ICRUDService<T,ID> {
     @Override
     public T save(T t) {
         return getRepo().save(t);
-
     }
 
     @Override

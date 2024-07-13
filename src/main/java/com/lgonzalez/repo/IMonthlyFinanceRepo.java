@@ -12,6 +12,6 @@ import java.util.List;
 public interface IMonthlyFinanceRepo extends IGenericRepo<MonthlyFinance,Long>{
 
     @Query("SELECT m from MonthlyFinance m where m.member = :member and m.monthFinance = :month and m.yearFinance = :year")
-    List<MonthlyFinance> getMonthlyFinance(Member member, Integer month, Integer year);
+    MonthlyFinance getMonthlyFinance(Member member, Integer month, Integer year);
 
 }

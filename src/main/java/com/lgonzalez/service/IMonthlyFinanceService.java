@@ -7,5 +7,9 @@ import java.util.List;
 
 public interface IMonthlyFinanceService extends ICRUDService<MonthlyFinance,Long> {
 
-    List<MonthlyFinance> getMonthlyFinance(Member member, Integer month, Integer year);
+    MonthlyFinance getMonthlyFinance(Member member, Integer month, Integer year);
+
+    void updateTotalMonthlyFinance(MonthlyFinance monthlyFinance);
+
+    MonthlyFinance getMonthlyFinance503020(MonthlyFinance monthlyFinance);
 }

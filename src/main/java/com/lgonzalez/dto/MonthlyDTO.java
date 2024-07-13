@@ -15,6 +15,6 @@ public class MonthlyDTO {
     private Integer yearFinance;
     private Double salary;
     private Double total;
-    private UUID idMember;
+    private Long idMember;
     private List<DistributionDTO> distributions;
 }

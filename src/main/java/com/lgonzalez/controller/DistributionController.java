@@ -19,14 +19,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/distribution")
 public class DistributionController {
 
     @Autowired
-    private IDistributionService service;
+    private IDistributionService distributionService;
     @Autowired
     private IMonthlyFinanceService monthlyFinanceService;
 
@@ -43,43 +42,41 @@ public class DistributionController {
 
         Distribution distribution =  mapper.map(distributionDTO, Distribution.class);
         Member member = memberService.findById(distributionDTO.getMonthlyFinance().getIdMember());
-
-        MonthlyFinance monthlyFinance = monthlyFinanceService.getMonthlyFinance(member,distributionDTO.getMonthlyFinance().getMonthFinance(),distributionDTO.getMonthlyFinance().getYearFinance()).get(0);
+        MonthlyFinance monthlyFinance = monthlyFinanceService.getMonthlyFinance(member,distributionDTO.getMonthlyFinance().getMonthFinance(),distributionDTO.getMonthlyFinance().getYearFinance());
 
         distribution.setMonthlyFinance(monthlyFinance);
 
         Double total = distribution.getMonthlyFinance().getSalary();
         distribution.setTotal(total*((double) distribution.getPercentage() /100));
         distribution.setTotalFinal(total*((double) distribution.getPercentage() /100));
+        distributionService.save(distribution);
 
-        Double totalMonthlyFinance = monthlyFinance.getDistributions().stream().mapToDouble(Distribution::getTotalFinal).sum();
-        monthlyFinance.setTotal(totalMonthlyFinance);
-        monthlyFinanceService.update(monthlyFinance);
+        monthlyFinance = monthlyFinanceService.getMonthlyFinance(member,distributionDTO.getMonthlyFinance().getMonthFinance(),distributionDTO.getMonthlyFinance().getYearFinance());
+        monthlyFinanceService.updateTotalMonthlyFinance(monthlyFinance);
 
-        service.save(distribution);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(distribution.getIdDistribution()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PostMapping("/create503020/{memberId}/{month}/{year}")
-    public ResponseEntity<Void> create503020(@PathVariable UUID memberId, @PathVariable Integer month, @PathVariable Integer year) {
+    public ResponseEntity<Void> create503020(@PathVariable Long memberId, @PathVariable Integer month, @PathVariable Integer year) {
         List<URI> uriList = new ArrayList<>();
 
         Member member = memberService.findById(memberId);
-        MonthlyFinance monthlyFinance;
-        monthlyFinance = monthlyFinanceService.getMonthlyFinance(member,month,year).get(0); //validar
+        MonthlyFinance monthlyFinance = monthlyFinanceService.getMonthlyFinance(member,month,year);
 
-        service.create503020(member, monthlyFinance).forEach(d -> {
+        monthlyFinance = monthlyFinanceService.getMonthlyFinance503020(monthlyFinance);
+
+        distributionService.create503020(member, monthlyFinance).forEach(d -> {
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                     .buildAndExpand(d.getIdDistribution())
                     .toUri();
             uriList.add(location);
         });
 
-        monthlyFinance = monthlyFinanceService.getMonthlyFinance(member,month,year).get(0);
-        Double totalMonthlyFinance = monthlyFinance.getDistributions().stream().mapToDouble(Distribution::getTotalFinal).sum();
-        monthlyFinance.setTotal(totalMonthlyFinance);
-        monthlyFinanceService.update(monthlyFinance);
+        monthlyFinance = monthlyFinanceService.getMonthlyFinance(member,month,year);
+        monthlyFinanceService.updateTotalMonthlyFinance(monthlyFinance);
+
 
         return ResponseEntity.created(uriList.get(0))
                 .header("Resource-URIs", uriList.toString())
@@ -90,9 +87,15 @@ public class DistributionController {
     public ResponseEntity<Void> detailDistribution(@RequestBody DistributionDetailDTO distributionDetailDTO, @PathVariable Long idDistribution) {
         DistributionDetail distributionDetail = mapper.map(distributionDetailDTO, DistributionDetail.class);
 
-        Distribution distribution = service.findById(idDistribution);
+        Distribution distribution = distributionService.findById(idDistribution);
         distributionDetail.setDistribution(distribution);
         detailService.save(distributionDetail);
+
+        distribution.setTotalFinal(distribution.getTotalFinal() - distributionDetail.getSubtotal());
+        distributionService.update(distribution);
+
+        MonthlyFinance monthlyFinance = distribution.getMonthlyFinance();
+        monthlyFinanceService.updateTotalMonthlyFinance(monthlyFinance);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(distributionDetail.getIdDistributionDetail()).toUri();
         return ResponseEntity.created(location).build();

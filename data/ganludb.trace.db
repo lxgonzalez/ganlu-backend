@@ -818,3 +818,66 @@ select d1_0.id_monthly_finance,d1_0.id_distribution,d1_0.description,d1_0.name,d
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:1570)
+2024-06-15 13:43:56.731794-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "UUID 'ccf1f367-def5-4841-a446-18e6bdb3be13' (MEMBER_COPY_3_0: ""ID_MEMBER"" BIGINT NOT NULL)"; SQL statement:
+INSERT INTO "PUBLIC"."MEMBER_COPY_3_0"("ID_MEMBER", "FIRST_NAME", "LAST_NAME", "PASSWORD", "EMAIL", "PHOTO_URL") OVERRIDING SYSTEM VALUE SELECT "ID_MEMBER", "FIRST_NAME", "LAST_NAME", "PASSWORD", "EMAIL", "PHOTO_URL" FROM "PUBLIC"."MEMBER" [22018-224]
+2024-06-15 13:43:56.741586-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "UUID 'ccf1f367-def5-4841-a446-18e6bdb3be13' (MONTHLY_FINANCE_COPY_3_1: ""ID_MEMBER"" BIGINT NOT NULL)"; SQL statement:
+INSERT INTO "PUBLIC"."MONTHLY_FINANCE_COPY_3_1"("MONTH_FINANCE", "SALARY", "TOTAL", "YEAR_FINANCE", "ID_MONTHLY_FINANCE", "ID_MEMBER") OVERRIDING SYSTEM VALUE SELECT "MONTH_FINANCE", "SALARY", "TOTAL", "YEAR_FINANCE", "ID_MONTHLY_FINANCE", "ID_MEMBER" FROM "PUBLIC"."MONTHLY_FINANCE" [22018-224]
+2024-06-15 14:16:16.716677-05:00 database: close
+org.h2.message.DbException: IO Exception: "Closing" [90028-224]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.mvstore.db.Store.close(Store.java:374)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1293)
+	at org.h2.engine.Database.closeImpl(Database.java:1255)
+	at org.h2.engine.Database.close(Database.java:1174)
+	at org.h2.engine.Database.close(Database.java:1151)
+	at org.h2.engine.Database.removeSession(Database.java:1078)
+	at org.h2.engine.SessionLocal.close(SessionLocal.java:910)
+	at org.h2.jdbc.JdbcConnection.close(JdbcConnection.java:391)
+	at com.zaxxer.hikari.pool.PoolBase.quietlyCloseConnection(PoolBase.java:139)
+	at com.zaxxer.hikari.pool.HikariPool.lambda$closeConnection$1(HikariPool.java:435)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: IO Exception: "Closing" [90028-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 14 more
+Caused by: org.h2.mvstore.MVStoreException: Could not truncate file C:/Users/User/Desktop/salary-app/ganlu-backend/data/ganludb.mv.db to size 49152 [2.2.224/2]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:996)
+	at org.h2.mvstore.SingleFileStore.truncate(SingleFileStore.java:205)
+	at org.h2.mvstore.RandomAccessStore.shrinkIfPossible(RandomAccessStore.java:700)
+	at org.h2.mvstore.RandomAccessStore.shrinkStoreIfPossible(RandomAccessStore.java:680)
+	at org.h2.mvstore.RandomAccessStore.writeChunk(RandomAccessStore.java:377)
+	at org.h2.mvstore.RandomAccessStore.writeChunk(RandomAccessStore.java:28)
+	at org.h2.mvstore.FileStore.storeBuffer(FileStore.java:1524)
+	at org.h2.mvstore.FileStore.lambda$serializeAndStore$3(FileStore.java:1432)
+	at org.h2.mvstore.FileStore.submitOrRun(FileStore.java:1401)
+	at org.h2.mvstore.FileStore.serializeAndStore(FileStore.java:1432)
+	at org.h2.mvstore.FileStore.lambda$storeIt$2(FileStore.java:1376)
+	at org.h2.mvstore.FileStore.submitOrRun(FileStore.java:1401)
+	at org.h2.mvstore.FileStore.storeIt(FileStore.java:1375)
+	at org.h2.mvstore.MVStore.storeNow(MVStore.java:843)
+	at org.h2.mvstore.MVStore.storeNow(MVStore.java:834)
+	at org.h2.mvstore.FileStore.store(FileStore.java:1364)
+	at org.h2.mvstore.RandomAccessStore.store(RandomAccessStore.java:618)
+	at org.h2.mvstore.RandomAccessStore.compactMoveChunks(RandomAccessStore.java:572)
+	at org.h2.mvstore.RandomAccessStore.compactMoveChunks(RandomAccessStore.java:481)
+	at org.h2.mvstore.RandomAccessStore.lambda$compactMoveChunks$1(RandomAccessStore.java:468)
+	at org.h2.mvstore.FileStore.executeFileStoreOperation(FileStore.java:1888)
+	at org.h2.mvstore.MVStore.executeFilestoreOperation(MVStore.java:922)
+	at org.h2.mvstore.RandomAccessStore.compactMoveChunks(RandomAccessStore.java:463)
+	at org.h2.mvstore.RandomAccessStore.compactStore(RandomAccessStore.java:443)
+	at org.h2.mvstore.FileStore.compactStore(FileStore.java:888)
+	at org.h2.mvstore.FileStore.stop(FileStore.java:275)
+	at org.h2.mvstore.MVStore.closeStore(MVStore.java:693)
+	at org.h2.mvstore.MVStore.close(MVStore.java:643)
+	at org.h2.mvstore.db.Store.close(Store.java:364)
+	... 12 more
+Caused by: java.io.IOException: The requested operation cannot be performed on a file with a user-mapped section open
+	at java.base/sun.nio.ch.FileDispatcherImpl.truncate0(Native Method)
+	at java.base/sun.nio.ch.FileDispatcherImpl.truncate(FileDispatcherImpl.java:97)
+	at java.base/sun.nio.ch.FileChannelImpl.truncate(FileChannelImpl.java:492)
+	at org.h2.mvstore.SingleFileStore.truncate(SingleFileStore.java:200)
+	... 39 more
